@@ -455,9 +455,140 @@ void sakht_naghshe(int array_naghshe[size_naghshe][size_naghshe],struct node **l
     }
 }
 void sakht_naghshe_rand(int array_naghshe[size_naghshe][size_naghshe],struct node **list){
+    int x, m1, n1,m2,n2,m,n;
+    int tedad_keshti1 = 4;
+    int tedad_keshti2 = 3;
+    int tedad_keshti3 = 2;
+    int tedad_keshti5 = 1;
+    *list=NULL;
+    for(int i=0;i<size_naghshe;i++){
+        for(int j=0;j<size_naghshe;j++)
+            array_naghshe[i][j] = 0;
+    }
+    int i = 0;
+    while ( i < tedad_keshti) {
+        x=rand()%4 + 1;
+        if (x == 1 && tedad_keshti1!=0) {
+            while (1) {
+                printf("bede mokhtasat keshti yeko\n");
+                m1=rand()%10;
+                n1=rand()%10;
+//                if (m1<0||m1>10||n1<0||n1>10)
+//                    continue;
+                if (check(array_naghshe, m1, n1) == 1)
+                    break;
+            }
+            add(&*list,m1,n1,m1,n1,1,1);
+            array_naghshe[m1][n1] = 1;
+            por_kardan_naghshe(array_naghshe, m1, n1);
+            --tedad_keshti1;
+            i++;
+            print1(array_naghshe);
+        }
+        else if (x == 2 && tedad_keshti2!=0) {
+            while (1) {
+                m1=rand()%10;
+                n1=rand()%10;
+                m2=rand()%10;
+                n2=rand()%10;
+//                if (m1<0||m1>10||m2<0||m2>10||n1<0||n1>10||n2<0||n2>10)
+//                    continue;
+                if (check(array_naghshe, m1, n1) == 1 && check(array_naghshe, m2, n2) == 1) {
+                    if ((m1 == m2 || n1 == n2 )&& ((int)fabs(m2-m1)==1 ||(int)fabs(n2-n1)==1))
+                        break;
+                }
+            }
+            if (m1==m2)
+                add(&*list,m1,n1,m2,n2,2,1);
+            else
+                add(&*list,m1,n1,m2,n2,1,2);
+            por_kardan_naghshe(array_naghshe, m1, n1);
+            por_kardan_naghshe(array_naghshe, m2, n2);
+            array_naghshe[m1][n1] = 2;
+            array_naghshe[m2][n2] = 2;
+            tedad_keshti2--;
+            i++;
+            print1(array_naghshe);
+        } else if (x == 3 && tedad_keshti3!=0) {
 
+            while (1) {
+                m1=rand()%10;
+                n1=rand()%10;
+                m2=rand()%10;
+                n2=rand()%10;
+//                if (m1<0||m1>10||m2<0||m2>10||n1<0||n1>10||n2<0||n2>10)
+//                    continue;
+                if (check(array_naghshe, m1, n1) == 1 && check(array_naghshe, m2, n2) == 1) {
+                    if ((m1 == m2 || n1 == n2 )&& ((int)fabs(m2-m1)==2 ||(int)fabs(n2-n1)==2))
+                        break;
+                }
+
+            }
+            por_kardan_naghshe(array_naghshe, m1, n1);
+            por_kardan_naghshe(array_naghshe, m2, n2);
+            if (m1 == m2) {
+                n=fmin(n1,n2);
+                por_kardan_naghshe(array_naghshe, m1, n + 1);
+                array_naghshe[m1][n + 1] = 3;
+                add(&*list,m1,n,m2,n2,3,1);
+            } else {
+                m=fmin(m1,m2);
+                por_kardan_naghshe(array_naghshe, m + 1, n1);
+                array_naghshe[m + 1][n1] = 3;
+                add(&*list,m1,n1,m2,n2,1,3);
+            }
+            array_naghshe[m1][n1] = 3;
+            array_naghshe[m2][n2] = 3;
+            tedad_keshti3--;
+            i++;
+            print1(array_naghshe);
+        }
+        else if (x==4 && tedad_keshti5!=0 ){
+            while (1) {
+                m1=rand()%10;
+                n1=rand()%10;
+                m2=rand()%10;
+                n2=rand()%10;
+//                if (m1<0||m1>10||m2<0||m2>10||n1<0||n1>10||n2<0||n2>10)
+//                    continue;
+                if (check(array_naghshe, m1, n1) == 1 && check(array_naghshe, m2, n2) == 1) {
+                    if ((m1 == m2 || n1 == n2) &&((int) fabs(m2-m1)==4 ||(int) fabs(n2-n1)==4))
+                        break;
+                }
+            }
+            por_kardan_naghshe(array_naghshe, m1, n1);
+            por_kardan_naghshe(array_naghshe, m2, n2);
+            if (m1 == m2) {
+                n=fmin(n1,n2);
+                por_kardan_naghshe(array_naghshe, m1, n+ 1);
+                por_kardan_naghshe(array_naghshe, m1, n + 2);
+                por_kardan_naghshe(array_naghshe, m1, n + 3);
+                array_naghshe[m1][n+ 1] = 5;
+                array_naghshe[m1][n + 2] = 5;
+                array_naghshe[m1][n + 3] = 5;
+                add(&*list,m1,n1,m2,n2,5,1);
+            } else {
+                m=fmin(m1,m2);
+                por_kardan_naghshe(array_naghshe, m + 1, n1);
+                por_kardan_naghshe(array_naghshe, m + 2, n1);
+                por_kardan_naghshe(array_naghshe, m + 3, n1);
+                array_naghshe[m + 1][n1] = 5;
+                array_naghshe[m + 2][n1] = 5;
+                array_naghshe[m + 3][n1] = 5;
+                add(&*list,m1,n1,m2,n2,1,5);
+            }
+            array_naghshe[m1][n1] = 5;
+            array_naghshe[m2][n2] = 5;
+            tedad_keshti5--;
+            i++;
+            print1(array_naghshe);
+        }
+
+    }
+    if (tedad_keshti1!=0 || tedad_keshti2!=0 || tedad_keshti3!=0 || tedad_keshti5!=0){
+        sakht_naghshe_rand(array_naghshe,&*list);
+    }
 }
-
 void ejra_bazi_do_nafare() {
     int m, n;
     struct node *list1 = NULL;
@@ -706,7 +837,7 @@ void ejra_bazi_do_nafare() {
                         }
                     }
                 }
-              else if (boot.tool == 1) {
+                else if (boot.tool == 1) {
                     i = fmin(boot.x1, boot.x2);
                     counter = 0;
                     for (j = (int) fmin(boot.x1, boot.x2); j <= (int) fmax(boot.x1, boot.x2); j++) {
@@ -779,74 +910,393 @@ void ejra_bazi_do_nafare() {
     }
 }
 void bazi_ba_robot(){
+    int m, n;
+    struct node *list1 = NULL;
+    struct node *list2 = NULL;
+    struct ships boot;
+    int array_naghshe_adad1[size_naghshe][size_naghshe];
+    int array_naghshe_adad2[size_naghshe][size_naghshe];
+    sakht_naghshe(array_naghshe_adad1, &list1);
+    sakht_naghshe_rand(array_naghshe_adad2, &list2);
+    char array_naghshe_char1[size_naghshe][size_naghshe];
+    char array_naghshe_char2[size_naghshe][size_naghshe];
+    for (int i = 0; i < size_naghshe; i++) {
+        for (int j = 0; j < size_naghshe; j++) {
+            array_naghshe_char1[i][j] = ' ';
+            array_naghshe_char2[i][j] = ' ';
+        }
+    }
+    print1(array_naghshe_adad1);
+    while (list2 != NULL && list1 != NULL) {
+        print_naghshe(array_naghshe_char1);
+        do {
+            if (list2 == NULL)
+                break;
+            print_naghshe(array_naghshe_char2);
+            system("cls");
+            printf("bede mokhtasat hamlaro SHOMARE 1\n");
+            scanf("%d %d", &m, &n);
+            while (m < 0 || m > 10 || n < 0 || n > 10 || array_naghshe_char2[m][n] != ' ') {
+                printf("bede mokhtasat hamlaro SHOMARE 1\n");
+                scanf("%d %d", &m, &n);
+            }
 
 
+            if (array_naghshe_adad2[m][n] == -1 || array_naghshe_adad2[m][n] == 0) {
+                array_naghshe_char2[m][n] = 'W';
+            } else if (array_naghshe_adad2[m][n] == 1) {
+                por_kardan_naghshe2(array_naghshe_char2, m, n);
+                array_naghshe_char2[m][n] = 'C';
+                delete(&list2, m, n);
+
+            } else if (array_naghshe_adad2[m][n] == 2) {
+                int counter = 0;
+                int j;
+                int i;
+                array_naghshe_char2[m][n] = 'E';
+                boot = search_list(list2, m, n);
+                if (boot.arz == 1) {
+                    i = fmin(boot.y1, boot.y2);
+                    for (j = (int) fmin(boot.y1, boot.y2); j <= (int) fmax(boot.y1, boot.y2); j++) {
+
+                        if (array_naghshe_char2[boot.x1][j] == 'E')
+                            counter++;
+                        if (counter == 2) {
+                            por_kardan_naghshe2(array_naghshe_char2, m, i);
+                            por_kardan_naghshe2(array_naghshe_char2, m, i + 1);
+                            array_naghshe_char2[m][i] = 'C';
+                            array_naghshe_char2[m][i + 1] = 'C';
+                            delete(&list2, m, n);
+
+                        }
+                    }
+                } else if (boot.tool == 1) {
+                    i = fmin(boot.x1, boot.x2);
+                    counter = 0;
+                    for (j = (int) fmin(boot.x1, boot.x2); j <= (int) fmax(boot.x1, boot.x2); j++) {
+                        if (array_naghshe_char2[j][boot.y1] == 'E')
+                            counter++;
+                        if (counter == 2) {
+                            por_kardan_naghshe2(array_naghshe_char2, i, n);
+                            por_kardan_naghshe2(array_naghshe_char2, i + 1, n);
+                            array_naghshe_char2[i][n] = 'C';
+                            array_naghshe_char2[i + 1][n] = 'C';
+                            delete(&list2, m, n);
+                        }
+                    }
+                }
+            } else if (array_naghshe_adad2[m][n] == 3) {
+                int counter = 0;
+                int j;
+                int i;
+                array_naghshe_char2[m][n] = 'E';
+                boot = search_list(list2, m, n);
+                if (boot.arz == 1) {
+                    i = fmin(boot.y1, boot.y2);
+                    for (j = (int) fmin(boot.y1, boot.y2); j <= (int) fmax(boot.y1, boot.y2); j++) {
+
+                        if (array_naghshe_char2[boot.x1][j] == 'E')
+                            counter++;
+                        if (counter == 3) {
+                            por_kardan_naghshe2(array_naghshe_char2, m, i);
+                            por_kardan_naghshe2(array_naghshe_char2, m, i + 1);
+                            por_kardan_naghshe2(array_naghshe_char2, m, i + 2);
+                            array_naghshe_char2[m][i] = 'C';
+                            array_naghshe_char2[m][i + 1] = 'C';
+                            array_naghshe_char2[m][i + 2] = 'C';
+                            delete(&list2, m, n);
+
+                        }
+                    }
+                } else if (boot.tool == 1) {
+                    i = fmin(boot.x1, boot.x2);
+                    counter = 0;
+                    for (j = (int) fmin(boot.x1, boot.x2); j <= (int) fmax(boot.x1, boot.x2); j++) {
+                        if (array_naghshe_char2[j][boot.y1] == 'E')
+                            counter++;
+                        if (counter == 3) {
+                            por_kardan_naghshe2(array_naghshe_char2, i, n);
+                            por_kardan_naghshe2(array_naghshe_char2, i + 1, n);
+                            por_kardan_naghshe2(array_naghshe_char2, i + 2, n);
+                            array_naghshe_char2[i][n] = 'C';
+                            array_naghshe_char2[i + 1][n] = 'C';
+                            array_naghshe_char2[i + 2][n] = 'C';
+                            delete(&list2, m, n);
 
 
+                        }
+                    }
+                }
+            } else if (array_naghshe_adad2[m][n] == 5) {
+                int counter = 0;
+                int j;
+                int i;
+                array_naghshe_char2[m][n] = 'E';
+                boot = search_list(list2, m, n);
+                if (boot.arz == 1) {
+                    i = fmin(boot.y1, boot.y2);
+                    for (j = (int) fmin(boot.y1, boot.y2); j <= (int) fmax(boot.y1, boot.y2); j++) {
+
+                        if (array_naghshe_char2[boot.x1][j] == 'E')
+                            counter++;
+                        if (counter == 5) {
+                            por_kardan_naghshe2(array_naghshe_char2, m, i);
+                            por_kardan_naghshe2(array_naghshe_char2, m, i + 1);
+                            por_kardan_naghshe2(array_naghshe_char2, m, i + 2);
+                            por_kardan_naghshe2(array_naghshe_char2, m, i + 3);
+                            por_kardan_naghshe2(array_naghshe_char2, m, i + 4);
+                            array_naghshe_char2[m][i] = 'C';
+                            array_naghshe_char2[m][i + 1] = 'C';
+                            array_naghshe_char2[m][i + 2] = 'C';
+                            array_naghshe_char2[m][i + 3] = 'C';
+                            array_naghshe_char2[m][i + 4] = 'C';
+                            delete(&list2, m, n);
+
+                        }
+                    }
+                } else if (boot.tool == 1) {
+                    i = fmin(boot.x1, boot.x2);
+                    counter = 0;
+                    for (j = (int) fmin(boot.x1, boot.x2); j <= (int) fmax(boot.x1, boot.x2); j++) {
+                        if (array_naghshe_char2[j][boot.y1] == 'E')
+                            counter++;
+                        if (counter == 5) {
+                            por_kardan_naghshe2(array_naghshe_char2, i, n);
+                            por_kardan_naghshe2(array_naghshe_char2, i + 1, n);
+                            por_kardan_naghshe2(array_naghshe_char2, i + 2, n);
+                            por_kardan_naghshe2(array_naghshe_char2, i + 3, n);
+                            por_kardan_naghshe2(array_naghshe_char2, i + 4, n);
+                            array_naghshe_char2[i][n] = 'C';
+                            array_naghshe_char2[i + 1][n] = 'C';
+                            array_naghshe_char2[i + 2][n] = 'C';
+                            array_naghshe_char2[i + 3][n] = 'C';
+                            array_naghshe_char2[i + 4][n] = 'C';
+                            delete(&list2, m, n);
+
+                        }
+                    }
+                }
+
+            }
+        } while (array_naghshe_adad2[m][n] != -1 && array_naghshe_adad2[m][n] != 0);
+        print_naghshe(array_naghshe_char2);
+//        system("cls");
+        do {
+            if (list1 == NULL)
+                break;
+//            print_naghshe(array_naghshe_char1);
+//            system("cls");
+//            printf("bede mokhtasat hamlaro SHOMARE 2\n");
+            m=rand()%10;
+            n=rand()%10;
+            while (m < 0 || m > 10 || n < 0 || n > 10 || array_naghshe_char1[m][n] != ' ') {
+                m=rand()%10;
+                n=rand()%10;
+            }
+            if (array_naghshe_adad1[m][n] == -1 || array_naghshe_adad1[m][n] == 0) {
+                array_naghshe_char1[m][n] = 'W';
+            } else if (array_naghshe_adad1[m][n] == 1) {
+                por_kardan_naghshe2(array_naghshe_char1, m, n);
+                array_naghshe_char1[m][n] = 'C';
+                delete(&list1, m, n);
+            } else if (array_naghshe_adad1[m][n] == 2) {
+                int counter = 0;
+                int j;
+                int i;
+                array_naghshe_char1[m][n] = 'E';
+                boot = search_list(list1, m, n);
+                if (boot.arz == 1) {
+                    i = fmin(boot.y1, boot.y2);
+                    for (j = (int) fmin(boot.y1, boot.y2); j <= (int) fmax(boot.y1, boot.y2); j++) {
+
+                        if (array_naghshe_char1[boot.x1][j] == 'E')
+                            counter++;
+                        if (counter == 2) {
+                            por_kardan_naghshe2(array_naghshe_char1, m, i);
+                            por_kardan_naghshe2(array_naghshe_char1, m, i + 1);
+                            array_naghshe_char1[m][i] = 'C';
+                            array_naghshe_char1[m][i + 1] = 'C';
+                            delete(&list1, m, n);
+                        }
+                    }
+                } else if (boot.tool == 1) {
+                    i = fmin(boot.x1, boot.x2);
+                    counter = 0;
+                    for (j = (int) fmin(boot.x1, boot.x2); j <= (int) fmax(boot.x1, boot.x2); j++) {
+                        if (array_naghshe_char1[j][boot.y1] == 'E')
+                            counter++;
+                        if (counter == 2) {
+                            por_kardan_naghshe2(array_naghshe_char1, i, n);
+                            por_kardan_naghshe2(array_naghshe_char1, i + 1, n);
+                            array_naghshe_char1[i][n] = 'C';
+                            array_naghshe_char1[i + 1][n] = 'C';
+                            delete(&list1, m, n);
+                        }
+                    }
+                }
+            }
+            else if (array_naghshe_adad1[m][n] == 3) {
+                int counter = 0;
+                int j;
+                int i;
+                array_naghshe_char1[m][n] = 'E';
+                boot = search_list(list1, m, n);
+                if (boot.arz == 1) {
+                    i = fmin(boot.y1, boot.y2);
+                    for (j = (int) fmin(boot.y1, boot.y2); j <= (int) fmax(boot.y1, boot.y2); j++) {
+
+                        if (array_naghshe_char1[boot.x1][j] == 'E')
+                            counter++;
+                        if (counter == 3) {
+                            por_kardan_naghshe2(array_naghshe_char1, m, i);
+                            por_kardan_naghshe2(array_naghshe_char1, m, i + 1);
+                            por_kardan_naghshe2(array_naghshe_char1, m, i + 2);
+                            array_naghshe_char1[m][i] = 'C';
+                            array_naghshe_char1[m][i + 1] = 'C';
+                            array_naghshe_char1[m][i + 2] = 'C';
+                            delete(&list1, m, n);
+                        }
+                    }
+                }
+                else if (boot.tool == 1) {
+                    i = fmin(boot.x1, boot.x2);
+                    counter = 0;
+                    for (j = (int) fmin(boot.x1, boot.x2); j <= (int) fmax(boot.x1, boot.x2); j++) {
+                        if (array_naghshe_char1[j][boot.y1] == 'E')
+                            counter++;
+                        if (counter == 3) {
+                            por_kardan_naghshe2(array_naghshe_char1, i, n);
+                            por_kardan_naghshe2(array_naghshe_char1, i + 1, n);
+                            por_kardan_naghshe2(array_naghshe_char1, i + 2, n);
+                            array_naghshe_char1[i][n] = 'C';
+                            array_naghshe_char1[i + 1][n] = 'C';
+                            array_naghshe_char1[i + 2][n] = 'C';
+                            delete(&list1, m, n);
+
+                        }
+                    }
+                }
+            }
+            else if (array_naghshe_adad1[m][n] == 5) {
+                int counter = 0;
+                int j;
+                int i;
+                array_naghshe_char1[m][n] = 'E';
+                boot = search_list(list1, m, n);
+                if (boot.arz == 1) {
+                    i = fmin(boot.y1, boot.y2);
+                    for (j = (int) fmin(boot.y1, boot.y2); j <= (int) fmax(boot.y1, boot.y2); j++) {
+
+                        if (array_naghshe_char1[boot.x1][j] == 'E')
+                            counter++;
+                        if (counter == 5) {
+                            por_kardan_naghshe2(array_naghshe_char1, m, i);
+                            por_kardan_naghshe2(array_naghshe_char1, m, i + 1);
+                            por_kardan_naghshe2(array_naghshe_char1, m, i + 2);
+                            por_kardan_naghshe2(array_naghshe_char1, m, i + 3);
+                            por_kardan_naghshe2(array_naghshe_char1, m, i + 4);
+                            array_naghshe_char1[m][i] = 'C';
+                            array_naghshe_char1[m][i + 1] = 'C';
+                            array_naghshe_char1[m][i + 2] = 'C';
+                            array_naghshe_char1[m][i + 3] = 'C';
+                            array_naghshe_char1[m][i + 4] = 'C';
+                            delete(&list1, m, n);
+                        }
+                    }
+                } else if (boot.tool == 1) {
+                    i = fmin(boot.x1, boot.x2);
+                    counter = 0;
+                    for (j = (int) fmin(boot.x1, boot.x2); j <= (int) fmax(boot.x1, boot.x2); j++) {
+                        if (array_naghshe_char1[j][boot.y1] == 'E')
+                            counter++;
+                        if (counter == 5) {
+                            por_kardan_naghshe2(array_naghshe_char1, i, n);
+                            por_kardan_naghshe2(array_naghshe_char1, i + 1, n);
+                            por_kardan_naghshe2(array_naghshe_char1, i + 2, n);
+                            por_kardan_naghshe2(array_naghshe_char1, i + 3, n);
+                            por_kardan_naghshe2(array_naghshe_char1, i + 4, n);
+                            array_naghshe_char1[i][n] = 'C';
+                            array_naghshe_char1[i + 1][n] = 'C';
+                            array_naghshe_char1[i + 2][n] = 'C';
+                            array_naghshe_char1[i + 3][n] = 'C';
+                            array_naghshe_char1[i + 4][n] = 'C';
+                            delete(&list1, m, n);
+
+                        }
+                    }
+                }
+            }
+
+        } while (array_naghshe_adad1[m][n] != -1 && array_naghshe_adad1[m][n] != 0);
+    }
 }
+void show_users(char name[100][100],int n){
+    for (int i=0;i<n;i++){
+        printf("%s",name[i]);
+        printf("\n");
+    }
+}
+void menu(char name[100][100]) {
+    int x;
+    int n=0;
+    int index;
+    printf("1. Play with a Friend\n2. Play with bot\n3. Load game\n4. Load last game\n5. Settings\n6. Score Board\n7. Exit\n");
+    scanf("%d", &x);
+    if (x == 1) {
+        printf("First player:\n1. choose user\n");
+        printf("1. choose from available users\n2. new user\n");
+        scanf("%d", &x);
+        if (x == 1) {
+            show_users(name,n);
+            scanf("%d", &index);
 
 
-//void show_users(char name[100][100],int n){
-//    for (int i=0;i<n;i++){
-//        printf("%s",name[i]);
-//        printf("\n");
-//    }
-//}
-//void menu(char name[100][100]) {
-//    int x;
-//    int n=0;
-//    int index;
-//    printf("1. Play with a Friend\n2. Play with bot\n3. Load game\n4. Load last game\n5. Settings\n6. Score Board\n7. Exit\n");
-//    scanf("%d", &x);
-//    if (x == 1) {
-//        printf("First player:\n1. choose user\n");
-//        printf("1. choose from available users\n2. new user\n");
-//        scanf("%d", &x);
-//        if (x == 1) {
-//            show_users(name,n);
-//            scanf("%d", &index);
-//
-//
-//        }
-//        else if (x == 2) {
-//
-//
-//        }
-//        printf("2. put ships\n");
-//        printf("1. Auto\n2. Manual\n");
-//        scanf("%d", &x);
-//        if (x == 1) {
-//
-//        } else if (x == 2) {
-//
-//        }
-//
-//        printf("Second player:\n1. choose user\n");
-//        printf("1. choose from available users\n2. new user\n");
-//        scanf("%d", &x);
-//        if (x == 1) {
-//
-//        } else if (x == 2) {
-//
-//        }
-//        printf("2. put ships\n");
-//        printf("1. Auto\n2. Manual\n");
-//        scanf("%d", &x);
-//        if (x == 1) {
-//
-//        } else if (x == 2) {
-//
-//
-//        }
-//    }
-//}
+        }
+        else if (x == 2) {
+
+
+        }
+        printf("2. put ships\n");
+        printf("1. Auto\n2. Manual\n");
+        scanf("%d", &x);
+        if (x == 1) {
+
+        } else if (x == 2) {
+
+        }
+
+        printf("Second player:\n1. choose user\n");
+        printf("1. choose from available users\n2. new user\n");
+        scanf("%d", &x);
+        if (x == 1) {
+
+        } else if (x == 2) {
+
+        }
+        printf("2. put ships\n");
+        printf("1. Auto\n2. Manual\n");
+        scanf("%d", &x);
+        if (x == 1) {
+
+        } else if (x == 2) {
+
+
+        }
+    }
+}
 
 int main() {
     char name[100][100];
     setbuf(stdout, 0);
-    srand(time(NULL));
-//    menu(name);
-    ejra_bazi_do_nafare();
+    time_t t=time(NULL);
+    srand(t);
+//    struct node *list;
+//    int arr[size_naghshe][size_naghshe];
+//    sakht_naghshe_rand(arr,&list);
+//    print1(arr);
+//    srand(time(NULL));
+//   menu(name);
+//    ejra_bazi_do_nafare();
 
     return 0;
 }
