@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <math.h>
 #include <time.h>
+#include <string.h>
 #define size_naghshe 10
 #define tedad_keshti 10
 struct ships{
@@ -307,7 +308,6 @@ void por_kardan_naghshe2(char array_naghshe[size_naghshe][size_naghshe],int m,in
         array_naghshe[m + 1][n] = 'W' ;
         array_naghshe[m + 1][n - 1] = 'W';
         array_naghshe[m + 1][n +1] = 'W';
-
     }
 }
 void print1(int arr[size_naghshe][size_naghshe]){
@@ -470,7 +470,6 @@ void sakht_naghshe_rand(int array_naghshe[size_naghshe][size_naghshe],struct nod
         x=rand()%4 + 1;
         if (x == 1 && tedad_keshti1!=0) {
             while (1) {
-                printf("bede mokhtasat keshti yeko\n");
                 m1=rand()%10;
                 n1=rand()%10;
 //                if (m1<0||m1>10||n1<0||n1>10)
@@ -483,7 +482,7 @@ void sakht_naghshe_rand(int array_naghshe[size_naghshe][size_naghshe],struct nod
             por_kardan_naghshe(array_naghshe, m1, n1);
             --tedad_keshti1;
             i++;
-            print1(array_naghshe);
+//            print1(array_naghshe);
         }
         else if (x == 2 && tedad_keshti2!=0) {
             while (1) {
@@ -508,7 +507,7 @@ void sakht_naghshe_rand(int array_naghshe[size_naghshe][size_naghshe],struct nod
             array_naghshe[m2][n2] = 2;
             tedad_keshti2--;
             i++;
-            print1(array_naghshe);
+//            print1(array_naghshe);
         } else if (x == 3 && tedad_keshti3!=0) {
 
             while (1) {
@@ -541,7 +540,7 @@ void sakht_naghshe_rand(int array_naghshe[size_naghshe][size_naghshe],struct nod
             array_naghshe[m2][n2] = 3;
             tedad_keshti3--;
             i++;
-            print1(array_naghshe);
+//            print1(array_naghshe);
         }
         else if (x==4 && tedad_keshti5!=0 ){
             while (1) {
@@ -581,7 +580,7 @@ void sakht_naghshe_rand(int array_naghshe[size_naghshe][size_naghshe],struct nod
             array_naghshe[m2][n2] = 5;
             tedad_keshti5--;
             i++;
-            print1(array_naghshe);
+//            print1(array_naghshe);
         }
 
     }
@@ -589,15 +588,24 @@ void sakht_naghshe_rand(int array_naghshe[size_naghshe][size_naghshe],struct nod
         sakht_naghshe_rand(array_naghshe,&*list);
     }
 }
-void ejra_bazi_do_nafare() {
+void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
     int m, n;
     struct node *list1 = NULL;
     struct node *list2 = NULL;
     struct ships boot;
     int array_naghshe_adad1[size_naghshe][size_naghshe];
     int array_naghshe_adad2[size_naghshe][size_naghshe];
-    sakht_naghshe(array_naghshe_adad1, &list1);
-    sakht_naghshe(array_naghshe_adad2, &list2);
+    if (c1=='A')
+        sakht_naghshe_rand(array_naghshe_adad1, &list1);
+
+    else
+        sakht_naghshe(array_naghshe_adad1, &list1);
+
+    if (c2=='A')
+        sakht_naghshe_rand(array_naghshe_adad2, &list2);
+    else
+        sakht_naghshe(array_naghshe_adad2, &list2);
+
     char array_naghshe_char1[size_naghshe][size_naghshe];
     char array_naghshe_char2[size_naghshe][size_naghshe];
     for (int i = 0; i < size_naghshe; i++) {
@@ -607,17 +615,18 @@ void ejra_bazi_do_nafare() {
         }
     }
     print1(array_naghshe_adad1);
+    print1(array_naghshe_adad2);
     while (list2 != NULL && list1 != NULL) {
         print_naghshe(array_naghshe_char1);
         do {
             if (list2 == NULL)
                 break;
             print_naghshe(array_naghshe_char2);
-            system("cls");
-            printf("bede mokhtasat hamlaro SHOMARE 1\n");
+//            system("cls");
+            printf("bede mokhtasat hamlaro %s\n",user1);
             scanf("%d %d", &m, &n);
             while (m < 0 || m > 10 || n < 0 || n > 10 || array_naghshe_char2[m][n] != ' ') {
-                printf("bede mokhtasat hamlaro SHOMARE 1\n");
+                printf("bede mokhtasat hamlaro %s\n",user1);
                 scanf("%d %d", &m, &n);
             }
 
@@ -760,16 +769,16 @@ void ejra_bazi_do_nafare() {
             }
         } while (array_naghshe_adad2[m][n] != -1 && array_naghshe_adad2[m][n] != 0);
         print_naghshe(array_naghshe_char2);
-        system("cls");
+//        system("cls");
         do {
             if (list1 == NULL)
                 break;
             print_naghshe(array_naghshe_char1);
-            system("cls");
-            printf("bede mokhtasat hamlaro SHOMARE 2\n");
+//            system("cls");
+            printf("bede mokhtasat hamlaro %s\n",user2);
             scanf("%d %d", &m, &n);
             while (m < 0 || m > 10 || n < 0 || n > 10 || array_naghshe_char1[m][n] != ' ') {
-                printf("bede mokhtasat hamlaro SHOMARE 2\n");
+                printf("bede mokhtasat hamlaro %s\n",user2);
                 scanf("%d %d", &m, &n);
             }
             if (array_naghshe_adad1[m][n] == -1 || array_naghshe_adad1[m][n] == 0) {
@@ -1084,8 +1093,7 @@ void bazi_ba_robot(){
         do {
             if (list1 == NULL)
                 break;
-//            print_naghshe(array_naghshe_char1);
-//            system("cls");
+
 //            printf("bede mokhtasat hamlaro SHOMARE 2\n");
             m=rand()%10;
             n=rand()%10;
@@ -1226,76 +1234,175 @@ void bazi_ba_robot(){
                     }
                 }
             }
+                        print_naghshe(array_naghshe_char1);
+            system("cls");
 
         } while (array_naghshe_adad1[m][n] != -1 && array_naghshe_adad1[m][n] != 0);
     }
 }
-void show_users(char name[100][100],int n){
-    for (int i=0;i<n;i++){
-        printf("%s",name[i]);
-        printf("\n");
+
+void show_users(FILE *fp){
+    fp=fopen("d:\\s\\aa.txt","r");
+    if (fp==NULL){
+        printf("can not open file");
     }
+    char str[1000];
+    while(fgets(str, 1000, fp) != NULL)
+        puts(str);
+    fclose(fp);
 }
-void menu(char name[100][100]) {
+int check_user(FILE *fp ,char *user) {
+    fp = fopen("d:\\s\\aa.txt", "r");
+    if (fp == NULL)
+        printf("can not open file");
+    char str[1000];
+    while (fgets(str, 1000, fp) != NULL) {
+        if (strcmpi(user, str) == 0) {
+            fclose(fp);
+            return -1;
+        }
+    }
+    fclose(fp);
+    return 0;
+}
+FILE* add_user(FILE *fp,char *user) {
+    fp = fopen("d:\\s\\aa.txt", "a");
+    if (fp == NULL)
+        printf("can not open file");
+    fprintf(fp,"%s\n", user);
+    fclose(fp);
+    return fp;
+}
+void find_user(FILE *fp,int index,char * user){
+    fp = fopen("d:\\s\\aa.txt", "r");
+    if (fp == NULL)
+        printf("can not open file");
+    char str[1000];
+
+
+    for (int i=0;i<index;i++){
+        fgets(str, 1000, fp);
+    }
+    fgets(user,1000,fp);
+}
+
+
+void menu() {
+    FILE *fp;
     int x;
-    int n=0;
+    char c1;
+    char c2;
+    char user1[100];
+    char user2[100];
+
     int index;
     printf("1. Play with a Friend\n2. Play with bot\n3. Load game\n4. Load last game\n5. Settings\n6. Score Board\n7. Exit\n");
     scanf("%d", &x);
     if (x == 1) {
-        printf("First player:\n1. choose user\n");
-        printf("1. choose from available users\n2. new user\n");
+        printf("First player:\n     1. choose user\n");
+        printf("               1. choose from available users\n               2. new user\n");
         scanf("%d", &x);
         if (x == 1) {
-            show_users(name,n);
-            scanf("%d", &index);
-
+            show_users(fp);
+            printf("bede usreo\n");
+            scanf("%d",&index);
+            find_user(fp,index,user1);
 
         }
         else if (x == 2) {
-
-
+            printf("bede usero\n");
+            fflush(stdin);
+            gets(user1);
+            if(check_user(fp,user1)==0){
+                fp=add_user(fp,user1);
+            } else{
+                while ((check_user(fp,user1)!=0)){
+                    printf("user estefade shode\n");
+                    printf("bede usero\n");
+                    fflush(stdin);
+                    gets(user1);
+                }
+                fp=add_user(fp,user1);
+            }
         }
-        printf("2. put ships\n");
-        printf("1. Auto\n2. Manual\n");
+        printf("     2. put ships\n");
+        printf("               1. Auto\n               2. Manual\n");
         scanf("%d", &x);
         if (x == 1) {
-
-        } else if (x == 2) {
-
+            c1='A';
+        }
+        else if (x == 2) {
+            c1='M';
         }
 
-        printf("Second player:\n1. choose user\n");
-        printf("1. choose from available users\n2. new user\n");
+        printf("Second player:\n     1. choose user\n");
+        printf("               1. choose from available users\n               2. new user\n");
         scanf("%d", &x);
         if (x == 1) {
+            show_users(fp);
+            printf("bede usreo");
+            scanf("%d",&index);
+            find_user(fp,index,user1);
 
         } else if (x == 2) {
-
+            printf("bede usero\n");
+            fflush(stdin);
+            gets(user2);
+            if(check_user(fp,user2)==0){
+                fp=add_user(fp,user2);
+            } else{
+                while ((check_user(fp,user2)!=0)){
+                    printf("user estefade shode\n");
+                    printf("bede usero\n");
+                    fflush(stdin);
+                    gets(user2);
+                }
+                fp=add_user(fp,user2);
+            }
         }
-        printf("2. put ships\n");
-        printf("1. Auto\n2. Manual\n");
+        printf("     2. put ships\n");
+        printf("               1. Auto\n               2. Manual\n");
         scanf("%d", &x);
         if (x == 1) {
+             c2='A';
+            ejra_bazi_do_nafare(user1, user2, c1, c2);
 
         } else if (x == 2) {
-
-
+            c2 = 'M';
+            ejra_bazi_do_nafare(user1, user2, c1, c2);
         }
+
+    }
+    else if (x==2){
+        bazi_ba_robot();
+    }
+    else if (x==3){
+
+    }
+    else if (x==4){
+
+    }
+    else if (x==5){
+
+    }
+    else if (x==6){
+
+    }
+    else if (x==7){
+
     }
 }
 
 int main() {
-    char name[100][100];
     setbuf(stdout, 0);
     time_t t=time(NULL);
     srand(t);
-//    struct node *list;
-//    int arr[size_naghshe][size_naghshe];
+    menu();
+
 //    sakht_naghshe_rand(arr,&list);
 //    print1(arr);
 //    srand(time(NULL));
-//   menu(name);
+//
 //    ejra_bazi_do_nafare();
 
     return 0;
