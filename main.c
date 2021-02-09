@@ -4,6 +4,7 @@
 #include <math.h>
 #include <time.h>
 #include <string.h>
+#include <windows.h>
 #define size_naghshe 10
 #define tedad_keshti 10
 struct ships{
@@ -42,7 +43,7 @@ struct node *create(int x1_boot,int y1_boot,int x2_boot,int y2_boot,int tool_boo
     struct node *list;
     list=(struct node *)malloc(sizeof(struct node));
     if (list==NULL)
-        printf("NO");
+        printf("can not  create link list");
     list->boot.x1=x1_boot;
     list->boot.y1=y1_boot;
     list->boot.x2=x2_boot;
@@ -529,7 +530,7 @@ void sakht_naghshe_rand(int array_naghshe[size_naghshe][size_naghshe],struct nod
                 n=fmin(n1,n2);
                 por_kardan_naghshe(array_naghshe, m1, n + 1);
                 array_naghshe[m1][n + 1] = 3;
-                add(&*list,m1,n,m2,n2,3,1);
+                add(&*list,m1,n1,m2,n2,3,1);
             } else {
                 m=fmin(m1,m2);
                 por_kardan_naghshe(array_naghshe, m + 1, n1);
@@ -584,28 +585,24 @@ void sakht_naghshe_rand(int array_naghshe[size_naghshe][size_naghshe],struct nod
         }
 
     }
-    if (tedad_keshti1!=0 || tedad_keshti2!=0 || tedad_keshti3!=0 || tedad_keshti5!=0){
-        sakht_naghshe_rand(array_naghshe,&*list);
-    }
 }
 void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
     int m, n;
     struct node *list1 = NULL;
     struct node *list2 = NULL;
     struct ships boot;
+    int seke1=0;
+    int seke2=0;
     int array_naghshe_adad1[size_naghshe][size_naghshe];
     int array_naghshe_adad2[size_naghshe][size_naghshe];
     if (c1=='A')
         sakht_naghshe_rand(array_naghshe_adad1, &list1);
-
     else
         sakht_naghshe(array_naghshe_adad1, &list1);
-
     if (c2=='A')
         sakht_naghshe_rand(array_naghshe_adad2, &list2);
     else
         sakht_naghshe(array_naghshe_adad2, &list2);
-
     char array_naghshe_char1[size_naghshe][size_naghshe];
     char array_naghshe_char2[size_naghshe][size_naghshe];
     for (int i = 0; i < size_naghshe; i++) {
@@ -618,10 +615,12 @@ void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
     print1(array_naghshe_adad2);
     while (list2 != NULL && list1 != NULL) {
         print_naghshe(array_naghshe_char1);
+
         do {
             if (list2 == NULL)
                 break;
             print_naghshe(array_naghshe_char2);
+//            system("cls");
 //            system("cls");
             printf("bede mokhtasat hamlaro %s\n",user1);
             scanf("%d %d", &m, &n);
@@ -629,20 +628,20 @@ void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
                 printf("bede mokhtasat hamlaro %s\n",user1);
                 scanf("%d %d", &m, &n);
             }
-
-
             if (array_naghshe_adad2[m][n] == -1 || array_naghshe_adad2[m][n] == 0) {
                 array_naghshe_char2[m][n] = 'W';
             } else if (array_naghshe_adad2[m][n] == 1) {
                 por_kardan_naghshe2(array_naghshe_char2, m, n);
                 array_naghshe_char2[m][n] = 'C';
                 delete(&list2, m, n);
+                seke1+=26;
 
             } else if (array_naghshe_adad2[m][n] == 2) {
                 int counter = 0;
                 int j;
                 int i;
                 array_naghshe_char2[m][n] = 'E';
+                ++seke1;
                 boot = search_list(list2, m, n);
                 if (boot.arz == 1) {
                     i = fmin(boot.y1, boot.y2);
@@ -656,6 +655,7 @@ void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
                             array_naghshe_char2[m][i] = 'C';
                             array_naghshe_char2[m][i + 1] = 'C';
                             delete(&list2, m, n);
+                            seke1+=12;
 
                         }
                     }
@@ -671,6 +671,7 @@ void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
                             array_naghshe_char2[i][n] = 'C';
                             array_naghshe_char2[i + 1][n] = 'C';
                             delete(&list2, m, n);
+                            seke1+=12;
                         }
                     }
                 }
@@ -679,6 +680,7 @@ void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
                 int j;
                 int i;
                 array_naghshe_char2[m][n] = 'E';
+                ++seke1;
                 boot = search_list(list2, m, n);
                 if (boot.arz == 1) {
                     i = fmin(boot.y1, boot.y2);
@@ -694,7 +696,7 @@ void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
                             array_naghshe_char2[m][i + 1] = 'C';
                             array_naghshe_char2[m][i + 2] = 'C';
                             delete(&list2, m, n);
-
+                            seke1+=8;
                         }
                     }
                 } else if (boot.tool == 1) {
@@ -711,7 +713,7 @@ void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
                             array_naghshe_char2[i + 1][n] = 'C';
                             array_naghshe_char2[i + 2][n] = 'C';
                             delete(&list2, m, n);
-
+                            seke1+=8;
 
                         }
                     }
@@ -722,6 +724,7 @@ void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
                 int i;
                 array_naghshe_char2[m][n] = 'E';
                 boot = search_list(list2, m, n);
+                ++seke1;
                 if (boot.arz == 1) {
                     i = fmin(boot.y1, boot.y2);
                     for (j = (int) fmin(boot.y1, boot.y2); j <= (int) fmax(boot.y1, boot.y2); j++) {
@@ -740,7 +743,7 @@ void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
                             array_naghshe_char2[m][i + 3] = 'C';
                             array_naghshe_char2[m][i + 4] = 'C';
                             delete(&list2, m, n);
-
+                            seke1+=5;
                         }
                     }
                 } else if (boot.tool == 1) {
@@ -761,7 +764,7 @@ void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
                             array_naghshe_char2[i + 3][n] = 'C';
                             array_naghshe_char2[i + 4][n] = 'C';
                             delete(&list2, m, n);
-
+                            seke1+=5;
                         }
                     }
                 }
@@ -771,7 +774,7 @@ void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
         print_naghshe(array_naghshe_char2);
 //        system("cls");
         do {
-            if (list1 == NULL)
+            if (list1 == NULL || list2==NULL)
                 break;
             print_naghshe(array_naghshe_char1);
 //            system("cls");
@@ -787,12 +790,14 @@ void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
                 por_kardan_naghshe2(array_naghshe_char1, m, n);
                 array_naghshe_char1[m][n] = 'C';
                 delete(&list1, m, n);
+                seke2+=26;
             } else if (array_naghshe_adad1[m][n] == 2) {
                 int counter = 0;
                 int j;
                 int i;
                 array_naghshe_char1[m][n] = 'E';
                 boot = search_list(list1, m, n);
+                ++seke2;
                 if (boot.arz == 1) {
                     i = fmin(boot.y1, boot.y2);
                     for (j = (int) fmin(boot.y1, boot.y2); j <= (int) fmax(boot.y1, boot.y2); j++) {
@@ -805,6 +810,7 @@ void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
                             array_naghshe_char1[m][i] = 'C';
                             array_naghshe_char1[m][i + 1] = 'C';
                             delete(&list1, m, n);
+                            seke2+=12;
                         }
                     }
                 } else if (boot.tool == 1) {
@@ -819,6 +825,7 @@ void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
                             array_naghshe_char1[i][n] = 'C';
                             array_naghshe_char1[i + 1][n] = 'C';
                             delete(&list1, m, n);
+                            seke2+=12;
                         }
                     }
                 }
@@ -829,6 +836,7 @@ void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
                 int i;
                 array_naghshe_char1[m][n] = 'E';
                 boot = search_list(list1, m, n);
+                ++seke2;
                 if (boot.arz == 1) {
                     i = fmin(boot.y1, boot.y2);
                     for (j = (int) fmin(boot.y1, boot.y2); j <= (int) fmax(boot.y1, boot.y2); j++) {
@@ -843,6 +851,7 @@ void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
                             array_naghshe_char1[m][i + 1] = 'C';
                             array_naghshe_char1[m][i + 2] = 'C';
                             delete(&list1, m, n);
+                            seke2+=12;
                         }
                     }
                 }
@@ -860,7 +869,7 @@ void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
                             array_naghshe_char1[i + 1][n] = 'C';
                             array_naghshe_char1[i + 2][n] = 'C';
                             delete(&list1, m, n);
-
+                            seke2+=12;
                         }
                     }
                 }
@@ -871,6 +880,7 @@ void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
                 int i;
                 array_naghshe_char1[m][n] = 'E';
                 boot = search_list(list1, m, n);
+                seke2++;
                 if (boot.arz == 1) {
                     i = fmin(boot.y1, boot.y2);
                     for (j = (int) fmin(boot.y1, boot.y2); j <= (int) fmax(boot.y1, boot.y2); j++) {
@@ -889,6 +899,7 @@ void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
                             array_naghshe_char1[m][i + 3] = 'C';
                             array_naghshe_char1[m][i + 4] = 'C';
                             delete(&list1, m, n);
+                            seke2+=5;
                         }
                     }
                 } else if (boot.tool == 1) {
@@ -909,13 +920,20 @@ void ejra_bazi_do_nafare(char *user1,char *user2,char c1,char c2) {
                             array_naghshe_char1[i + 3][n] = 'C';
                             array_naghshe_char1[i + 4][n] = 'C';
                             delete(&list1, m, n);
-
+                            seke2+=5;
                         }
                     }
                 }
             }
 
         } while (array_naghshe_adad1[m][n] != -1 && array_naghshe_adad1[m][n] != 0);
+    }
+    if (list1==NULL){
+        print_naghshe(array_naghshe_char2);
+        printf("%s winner\n",user2 );
+    } else{
+        print_naghshe(array_naghshe_char1);
+        printf("%s winner\n",user1 );
     }
 }
 void bazi_ba_robot(){
@@ -939,7 +957,7 @@ void bazi_ba_robot(){
     while (list2 != NULL && list1 != NULL) {
         print_naghshe(array_naghshe_char1);
         do {
-            if (list2 == NULL)
+            if (list1 == NULL || list2==NULL)
                 break;
             print_naghshe(array_naghshe_char2);
             system("cls");
@@ -1031,8 +1049,6 @@ void bazi_ba_robot(){
                             array_naghshe_char2[i + 1][n] = 'C';
                             array_naghshe_char2[i + 2][n] = 'C';
                             delete(&list2, m, n);
-
-
                         }
                     }
                 }
@@ -1091,7 +1107,7 @@ void bazi_ba_robot(){
         print_naghshe(array_naghshe_char2);
 //        system("cls");
         do {
-            if (list1 == NULL)
+            if (list1 == NULL || list2==NULL)
                 break;
 
 //            printf("bede mokhtasat hamlaro SHOMARE 2\n");
@@ -1239,6 +1255,7 @@ void bazi_ba_robot(){
 
         } while (array_naghshe_adad1[m][n] != -1 && array_naghshe_adad1[m][n] != 0);
     }
+
 }
 
 void show_users(FILE *fp){
@@ -1246,18 +1263,26 @@ void show_users(FILE *fp){
     if (fp==NULL){
         printf("can not open file");
     }
+    int i=1;
     char str[1000];
-    while(fgets(str, 1000, fp) != NULL)
+    while(fgets(str, 1000, fp) != NULL){
+        printf("%d) ",i);
         puts(str);
+        i++;
+    }
+
     fclose(fp);
 }
 int check_user(FILE *fp ,char *user) {
+    if (fp == NULL)
+        return 0;
     fp = fopen("d:\\s\\aa.txt", "r");
     if (fp == NULL)
-        printf("can not open file");
+        printf("can not open file\n");
     char str[1000];
     while (fgets(str, 1000, fp) != NULL) {
-        if (strcmpi(user, str) == 0) {
+        str[strlen(str)-1]='\0';
+        if (strcmpi(user,str) == 0) {
             fclose(fp);
             return -1;
         }
@@ -1280,21 +1305,98 @@ void find_user(FILE *fp,int index,char * user){
     char str[1000];
 
 
-    for (int i=0;i<index;i++){
+    for (int i=1;i<index;i++){
         fgets(str, 1000, fp);
     }
     fgets(user,1000,fp);
+    fclose(fp);
+}
+FILE * score_board(FILE *fp,char *user,int emtiaz){
+    char str[1000];
+    int x;
+    char c;
+    fp = fopen("d:\\s\\board.txt", "a");
+    fclose(fp);
+//    if (fp==NULL){
+//        fp = fopen("d:\\s\\board.txt", "w");
+//        if (fp == NULL)
+//            printf("can not open file");
+//        fprintf(fp,"%s",user);
+//        fprintf(fp," %d",emtiaz);
+//        fclose(fp);
+//    }
+//    else {
+
+        fp = fopen("d:\\s\\board.txt", "r");
+        if (fp == NULL)
+            printf("can not open file");
+        c=fgetc(fp);
+        fclose(fp);
+        if (c==EOF){
+            fp = fopen("d:\\s\\board.txt", "r+");
+            fprintf(fp, "%c",'\n');
+            fprintf(fp, "%s", user);
+            fprintf(fp, " %d", emtiaz);
+            fclose(fp);
+            fclose(fp);
+        }
+        else {
+            fp = fopen("d:\\s\\board.txt", "r+");
+            while (1) {
+                fscanf(fp, "%s", str);
+                fscanf(fp, "%d", &x);
+                if (strcmpi(str, user) == 0) {
+                    fprintf(fp, "%d", emtiaz);
+                    fclose(fp);
+                    return fp;
+                } else if (fgetc(fp) == EOF) {
+                    fclose(fp);
+                    fp = fopen("d:\\s\\board.txt", "a");
+                    fprintf(fp, "%c",'\n');
+                    fprintf(fp, "%s", user);
+                    fprintf(fp, " %d", emtiaz);
+                    fclose(fp);
+                    return fp;
+                }
+            }
+        }
+
+
+
+
+}
+void print_board(FILE *fp){
+    fp=fopen("d:\\s\\board.txt","r");
+    if (fp==NULL){
+        printf("can not open file");
+    }
+    int i=1;
+    char str[1000];
+    int emtiaz;
+    do{
+        fscanf(fp,"%s",str);
+        printf("%s","USERS NAME:");
+        printf("%20s","USERS POINT:");
+        printf("\n");
+        printf("%d) ",i);
+        printf("%s",str);
+        i++;
+        fscanf(fp,"%d",&emtiaz);
+        printf("%20d",emtiaz);
+    }while (feof(fp));
+
+    fclose(fp);
+
 }
 
-
 void menu() {
-    FILE *fp;
+    FILE *fp=NULL;
+    FILE *file_score_board=NULL;
     int x;
     char c1;
     char c2;
     char user1[100];
     char user2[100];
-
     int index;
     printf("1. Play with a Friend\n2. Play with bot\n3. Load game\n4. Load last game\n5. Settings\n6. Score Board\n7. Exit\n");
     scanf("%d", &x);
@@ -1303,6 +1405,11 @@ void menu() {
         printf("               1. choose from available users\n               2. new user\n");
         scanf("%d", &x);
         if (x == 1) {
+            if (fp==NULL){
+                printf("File is empty\n");
+                printf("please try a gain\n");
+                menu();
+            }
             show_users(fp);
             printf("bede usreo\n");
             scanf("%d",&index);
@@ -1315,6 +1422,7 @@ void menu() {
             gets(user1);
             if(check_user(fp,user1)==0){
                 fp=add_user(fp,user1);
+                 file_score_board=score_board(file_score_board,user1,0);
             } else{
                 while ((check_user(fp,user1)!=0)){
                     printf("user estefade shode\n");
@@ -1323,6 +1431,7 @@ void menu() {
                     gets(user1);
                 }
                 fp=add_user(fp,user1);
+                file_score_board=score_board(file_score_board,user1,0);
             }
         }
         printf("     2. put ships\n");
@@ -1340,9 +1449,9 @@ void menu() {
         scanf("%d", &x);
         if (x == 1) {
             show_users(fp);
-            printf("bede usreo");
+            printf("bede usreo\n");
             scanf("%d",&index);
-            find_user(fp,index,user1);
+            find_user(fp,index,user2);
 
         } else if (x == 2) {
             printf("bede usero\n");
@@ -1350,6 +1459,7 @@ void menu() {
             gets(user2);
             if(check_user(fp,user2)==0){
                 fp=add_user(fp,user2);
+                file_score_board=score_board(file_score_board,user2,0);
             } else{
                 while ((check_user(fp,user2)!=0)){
                     printf("user estefade shode\n");
@@ -1358,6 +1468,7 @@ void menu() {
                     gets(user2);
                 }
                 fp=add_user(fp,user2);
+                file_score_board=score_board(file_score_board,user2,0);
             }
         }
         printf("     2. put ships\n");
@@ -1383,13 +1494,17 @@ void menu() {
 
     }
     else if (x==5){
+        printf("     1. ships\n     2. map size\n     3. theme (bonus)\n");
+        scanf("%d",&x);
+
 
     }
     else if (x==6){
+        print_board(file_score_board);
 
     }
     else if (x==7){
-
+        exit(-1);
     }
 }
 
