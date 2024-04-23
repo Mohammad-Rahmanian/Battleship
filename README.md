@@ -1,7 +1,7 @@
-# Battle Ships Game
+# Battle Ship Game
 
 ## Overview
-This is a classic battle ships game implemented in C, supporting both single-player and multiplayer modes. Players can place their ships on a grid, attempt to guess the locations of the opponent's ships, and track the progress of the game.
+This is a classic battle ship game implemented in C, supporting both single-player and multiplayer modes. Players can place their ships on a grid, attempt to guess the locations of the opponent's ships, and track the progress of the game.
 
 ## Features
 - **Single-player mode**: Play against a computer-controlled opponent.
